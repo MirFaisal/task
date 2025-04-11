@@ -9,7 +9,7 @@ export class Task {
   @Column()
   description: string;
   @Column()
-  status: string;
+  column: string;
   @Column()
   order: number;
 }
