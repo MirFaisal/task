@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
@@ -49,11 +50,6 @@ export class TasksController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     try {
       const task = await this.tasksService.findOne(id);
-      if (!task) {
-        return {
-          message: 'Task not found',
-        };
-      }
       return {
         message: 'Task retrieved successfully',
         task,
@@ -99,10 +95,8 @@ export class TasksController {
         message: 'Task position updated successfully',
         task: updatedTask,
       };
-    } catch {
-      return {
-        message: 'Error updating task position',
-      };
+    } catch (error) {
+      throw new NotFoundException(error);
     }
   }
 

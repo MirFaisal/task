@@ -10,20 +10,25 @@ export class TasksService {
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
   ) {}
 
-  create(task: CreateTaskDto): Promise<Task> {
+  async create(task: CreateTaskDto): Promise<Task> {
     const newTask = this.tasksRepository.create(task);
     return this.tasksRepository.save(newTask);
   }
 
-  findAll(): Promise<Task[]> {
-    return this.tasksRepository.find();
+  async findAll(): Promise<Task[]> {
+    const tasks = await this.tasksRepository.find();
+    return tasks;
   }
 
-  findOne(id: number) {
-    const task = this.tasksRepository.findOneBy({ id });
-    if (!Object.keys(task).length) {
+  async findOne(id: number) {
+    console.log('findOne', id);
+    const task = await this.tasksRepository.findOne({ where: { id } });
+
+    if (!task) {
+      console.log('Task not found');
       throw new Error('Task not found');
     }
+
     return task;
   }
 
