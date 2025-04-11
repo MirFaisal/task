@@ -1,14 +1,14 @@
 // for create
 export class CreateTaskDto {
-  title: string;
+  task: string;
   description?: string;
-  column: string;
+  status: string;
   order: number;
 }
 // for update
 export class UpdateTaskDto {
-  title?: string;
+  task?: string;
   description?: string;
-  column: string;
+  status: string;
   order: number;
 }

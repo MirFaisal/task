@@ -5,11 +5,11 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  title: string;
+  task: string;
   @Column()
   description: string;
   @Column()
-  column: string;
+  status: string;
   @Column()
   order: number;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
