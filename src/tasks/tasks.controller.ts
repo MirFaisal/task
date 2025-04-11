@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -45,7 +46,7 @@ export class TasksController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     try {
       const task = await this.tasksService.findOne(id);
       if (!task) {
@@ -65,7 +66,10 @@ export class TasksController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() task: CreateTaskDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() task: CreateTaskDto,
+  ) {
     try {
       const updatedTask = await this.tasksService.update(id, task);
       return {
@@ -79,8 +83,31 @@ export class TasksController {
     }
   }
 
+  @Patch(':id/position')
+  async updatePosition(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('order', ParseIntPipe) order: number,
+    @Body('column') column: string,
+  ) {
+    try {
+      const updatedTask = await this.tasksService.updatePosition(
+        id,
+        order,
+        column,
+      );
+      return {
+        message: 'Task position updated successfully',
+        task: updatedTask,
+      };
+    } catch {
+      return {
+        message: 'Error updating task position',
+      };
+    }
+  }
+
   @Delete(':id')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     try {
       await this.tasksService.remove(id);
       return {
