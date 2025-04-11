@@ -19,13 +19,32 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  findOne(id: number): Promise<Task | null> {
-    return this.tasksRepository.findOneBy({ id });
+  findOne(id: number) {
+    const task = this.tasksRepository.findOneBy({ id });
+    if (!Object.keys(task).length) {
+      throw new Error('Task not found');
+    }
+    return task;
   }
 
   async update(id: number, task: Partial<CreateTaskDto>): Promise<Task> {
     return this.tasksRepository.save({ ...task, id });
   }
+
+  async updatePosition(
+    id: number,
+    order: number,
+    column: string,
+  ): Promise<Task> {
+    const task = await this.tasksRepository.findOneBy({ id });
+    if (!task) {
+      throw new Error('Task not found');
+    }
+    task.order = order;
+    task.column = column;
+    return this.tasksRepository.save(task);
+  }
+
   async remove(id: number): Promise<void> {
     await this.tasksRepository.delete(id);
   }
