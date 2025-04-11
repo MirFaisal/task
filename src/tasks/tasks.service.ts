@@ -41,6 +41,7 @@ export class TasksService {
     order: number,
     column: string,
   ): Promise<Task> {
+    console.log('updatePosition', id, order, column);
     const task = await this.tasksRepository.findOneBy({ id });
     if (!task) {
       throw new Error('Task not found');
