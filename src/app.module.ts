@@ -21,6 +21,7 @@ import { TasksModule } from './tasks/tasks.module';
       autoLoadEntities: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      ssl: { rejectUnauthorized: false }, // Allows SSL connection
     }),
     TasksModule,
   ],
