@@ -14,8 +14,19 @@ import { TasksService } from './tasks.service';
 
 @Controller('tasks')
 export class TasksController {
+  /**
+   * Constructs the TasksController.
+   *
+   * @param tasksService - The service responsible for task management.
+   */
   constructor(private readonly tasksService: TasksService) {}
 
+  /**
+   * Creates a new task.
+   *
+   * @param task - The data transfer object containing task details.
+   * @returns A message indicating the result of the operation.
+   */
   @Post()
   async create(@Body() task: CreateTaskDto) {
     try {
@@ -31,6 +42,11 @@ export class TasksController {
     }
   }
 
+  /**
+   *
+   * @returns A message indicating the result of the operation.
+   * @throws An error if the task is not found.
+   */
   @Get()
   async findAll() {
     try {
@@ -46,6 +62,13 @@ export class TasksController {
     }
   }
 
+  /**
+   *
+   * @param id - The ID of the task to retrieve.
+   * @param task - The data transfer object containing task details.
+   * @returns A message indicating the result of the operation.
+   * @throws An error if the task is not found.
+   */
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     try {
@@ -61,6 +84,12 @@ export class TasksController {
     }
   }
 
+  /**
+   *
+   * @param id - The ID of the task to update.
+   * @param task - The data transfer object containing task details.
+   * @returns A message indicating the result of the operation.
+   */
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -79,6 +108,13 @@ export class TasksController {
     }
   }
 
+  /**
+   *
+   * @param id - The ID of the task to update.
+   * @param order - The new order of the task.
+   * @param column - The column to which the task belongs.
+   * @returns A message indicating the result of the operation.
+   */
   @Patch(':id/position')
   async updatePosition(
     @Param('id', ParseIntPipe) id: number,
@@ -99,7 +135,12 @@ export class TasksController {
       throw new NotFoundException(error);
     }
   }
-
+  
+  /**
+   *
+   * @param id - The ID of the task to delete.
+   * @returns A message indicating the result of the operation.
+   */
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     try {
